@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mx-5">
+    <div class="row">
+        <div class="d-md-none">
+            <div class="d-none d-md-block row" style="display: flex !important;">
+                <div class="col-12 col-md-5">
+                    <img id="largeImage" src="{{ product.image.url }}" alt="">
+                </div>
+                <div class="col-12 col-md-1 row">
+                    <div class="col-2">
+                        <img src="{{ product.image.url }}" class="thumbnail" style="width: 100%;" alt="">
+                    </div>
+                    {% for i in more_images %}
+                        <div class="col-2">
+                            <img src="{{ i.image.url }}" class="mt-1 thumbnail" style="width: 100%;" alt="">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="d-none d-md-block">
+            <div class="row" style="display: flex !important;">
+                <div class="col-12 col-md-1 d-flex justify-content-end">
+                    <div>
+                        <img src="{{ product.image.url }}" class="thumbnail" style="width: 50%;" alt="">
+                        {% for i in more_images %}
+                            <img src="{{ i.image.url }}" class="mt-1 thumbnail" style="width: 50%;" alt="">
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-12 col-md-5">
+                    <img id="largeImage2" src="{{ product.image.url }}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var thumbnails = document.querySelectorAll(".thumbnail");
+    var largeImage = document.getElementById("largeImage");
+    var largeImage2 = document.getElementById("largeImage2"); // Unique ID for the second large image
+
+    thumbnails.forEach(function(thumbnail) {
+        thumbnail.addEventListener("click", function() {
+            largeImage.src = thumbnail.src;
+            largeImage2.src = thumbnail.src; // Update the second large image
+        });
+    });
+</script>
+{% endblock %}

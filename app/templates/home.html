@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="d-none d-md-block">
+        <div class="banner d-flex align-items-end" style="background-image: url({% static 'image/home_banner.jpeg' %});">
+           <div style="width: 20%; margin-left: 10%; margin-bottom: 10%;">
+                <h1 class="fs-1">Embrace the beauty of autumn</h1>
+                <p class="fs-4">As the leaves change and the air turns crisp, it's the perfect time to refresh your wardrobe and discover the latest trends that will elevate your style this season.</p>
+                <a href="{% url 'app:category_page_url' 235 %}" type="submit" class="btn " style="background-color: rgb(133,117,79); color: #fff;">Shop now</a>
+            </div>
+        </div>
+    </div>
+    <div class="d-md-none">
+        <div class="banner" style="background-image: url({% static 'image/home_banner.jpeg' %});"></div>
+        <h1 class="fs-4">Embrace the beauty of autumn</h1>
+        <p class="fs-6">As the leaves change and the air turns crisp, it's the perfect time to refresh your wardrobe and discover the latest trends that will elevate your style this season.</p>
+    </div>
+
+    <div style="margin: 0 30px;">
+        <h1 class="fs-2">Featured products</h1>
+        <div class="row autoplay">
+            
+            {% for x in products|slice:":8" %}
+            <a href="{% url 'app:product_page_url' x.pk %}" class="product">
+                <div class="image-container">
+                    <img class="default-image" src="{{ x.image.url }}" style="width: 20rem !important;" alt="Product Image">
+                    {% for e in more_images %}
+                        {% if e.product.pk == x.pk %}
+                            <img class="hover-image" src="{{ e.image.url }}" style="width: 20rem !important;" alt="Hover Image">
+                        {% endif %}
+                    {% endfor %}
+                    <i class="fa fa-heart hover-icons"></i>
+                    <p>{{ x.title }}</p>
+                    <p>${{ x.price }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-12 text-center mb-3" style="border-right: 0.1px solid #99939379;">
+                <i class="fa-solid fa-box" style="color: #85754F;"></i>
+                <p class="fs-5">Reliable shipping</p>
+                <p class="fs-6">Your purchases will reach your doorstep quickly and in perfect condition.</p>
+            </div>
+            <div class="col-md-3 col-12 text-center mb-3" style="border-right: 0.1px solid #99939379;">
+                <i class="fa-solid fa-shield-halved" style="color: #85754F;"></i>
+                <p class="fs-5">Secure checkout</p>
+                <p class="fs-6">Shopping online should be convenient and secure.</p>
+            </div>
+            <div class="col-md-3 col-12 text-center mb-3" style="border-right: 0.1px solid #99939379;">
+                <i class="fa-solid fa-percent" style="color: #85754F;"></i>
+                <p class="fs-5">Exclusive Deals and Promotions</p>
+                <p class="fs-6">Subscribers to our newsletter receive early access to sales and special offers.</p>
+            </div>
+            <div class="col-md-3 col-12 text-center mb-3">
+                <i class="fa-solid fa-ruler-combined" style="color: #85754F;"></i>
+                <p class="fs-5">Inclusive Sizing and Accessibility</p>
+                <p class="fs-6">We prioritize inclusivity by offering a wide range of sizes.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-12 home_page_banner d-flex align-items-center background_hover" style="background-image: url({% static 'image/homepage-banner-0-image.jpg' %});">
+                <div class="w-50 " style="margin-left: 10%;">
+                    <h1 class="fs-4">Explore our tops selections</h1>
+                    <p>Dive into a world of excellence with our carefully curated top selections.</p>
+                    <button class="btn" style="background-color: #85754F; color: #fff;">Check out</button>
+                </div>
+            </div>
+            <div class="col-md-4 col-12 home_page_banner d-flex align-items-center background_hover" style="background-image: url({% static 'image/homepage-banner-1-image.jpg' %});">
+                <div class="w-50 " style="margin-left: 10%;">
+                    <h1 class="fs-4">Shop dresses</h1>
+                    <p>Discover the perfect dress to suit your style and occasion in our dress collection.</p>
+                    <button class="btn" style="background-color: #85754F; color: #fff;">Check out</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 home_page_banner p-5" style="background-image: url({% static 'image/spotlight-background.jpg' %}); height: 40vh !important; filter: brightness(1);">
+                <div class="row d-flex align-items-center justify-content-between">
+                    <div class="col-md-3 col-12" style="color: #fff;">
+                        <h1 class="fs-3">Shop outerwear for the new season</h1>
+                        <p class="fs-5">Get ready to embrace the changing seasons in style with our latest collection of outerwear.</p>
+                        <button class="btn btn-primary" style="background-color: #85754F; color: #fff;">Shop now</button>
+                    </div>
+        
+                    <div class="col-md-5 col-12 d-flex align-items-center  " style="background-color: #fff; height: auto; padding: 20px;">
+                        {% for x in products|slice:":2" %}
+                            <a class="product-card mb-4 w-50 text-dark" style="cursor: pointer;">
+                                <img src="{{ x.image.url }}" style="width: 75%" alt="{{ x.title }}">
+                                <div class="product-details mt-3">
+                                    <h2 class="fs-6 mb-2">{{ x.title|slice:":28" }}</h2>
+                                    <p class="text-secondary m-0">{{ x.price }}</p>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row" style="margin-top: 80px;">
+        <div class="col-12 d-flex justify-content-center align-items-center background_hover" style="background-image: url({% static 'image/cta-background.jpg' %}); height: 60vh;">
+            <div class="d-flex justify-content-center">
+                <div class="text-center">
+                    <h1 class="text-white" style="font-size: 60px;">Explore our new arrivals</h1>
+                    <button type="submit" class="btn fs-3 px-4" style="background-color: rgb(133,117,79); color: #fff;">Shop now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.autoplay').slick({
+                dots: true,
+                slidesToShow: 4, 
+                slidesToScroll: 4,
+                autoplay: true,
+                autoplaySpeed: 5000,
+                responsive: [
+                    {
+                        breakpoint: 768, 
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+
+{% endblock %}

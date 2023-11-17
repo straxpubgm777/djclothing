@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content  %}
+
+    <main>
+        <div class="row">
+            <div class="col-md-1"></div>
+
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-2 d-flex">
+                        <a class="text-dark fs-5" href="{% url 'app:home_page_url' %}">Home  > </a>
+                        
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    
+                </div>
+                <div class="row mt-5" style="border-top: 0.2px solid #7572725d;">
+                    <div class="col-md-2">
+                        <h1 class="fs-4">categories</h1>
+                        {% for category in categories %}
+                            <div class="dropdown me-1">
+                                <a class="text-dark fs-5" href="{% url 'app:category_page_url' category.pk %}">{{ category.categories }}</a>
+                                <button type="button" class="fs-5 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="10,20">
+                                    
+                                </button>
+                                <ul class="dropdown-menu text-right m-0 p-0">
+                                    {% for sub in subCategories %}
+                                        {% if sub.category.pk == category.pk %}
+                                            <li><a href="{% url 'app:sub_category_page_url' sub.pk %}">{{ sub.name }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                          </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            {% for x in sub_products %}
+                            <a href="{% url 'app:product_page_url' x.pk %}" class="product col-md-3 mx-3">
+                                <div class="image-container">
+                                    <img class="default-image" src="{{ x.image.url }}" style="width: 20rem !important;" alt="Product Image">
+                                    {% for e in more_images %}
+                                        {% if e.product.pk == x.pk %}
+                                            <img class="hover-image" src="{{ e.image.url }}" style="width: 20rem !important;" alt="Hover Image">
+                                        {% endif %}
+                                    {% endfor %}
+                                    <i class="fa fa-heart hover-icons"></i>
+                                    <p>{{ x.title }}</p>
+                                    <p>${{ x.price }}</p>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-1"></div>
+        </div>
+    </main>
+
+{% endblock %}
