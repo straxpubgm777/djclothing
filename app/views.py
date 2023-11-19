@@ -1,9 +1,8 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404, redirect
 from app.models import *
-from bs4 import BeautifulSoup
-import requests
-from django.core.files import File
-from io import BytesIO
+from app.forms import *
+from django.contrib.auth.decorators import user_passes_test
+
 
 def home_page(request):
     products = Products.objects.all()
@@ -38,3 +37,29 @@ def sub_category_page(request ,subCategory):
         "sub_products":sub_products
     })
 
+def add_products(request):
+    error = ""
+    form = AddProductsForm()
+
+    if request.method == 'POST':
+        form = AddProductsForm(request.POST, request.FILES)  # Include request.FILES for handling uploaded files
+        if form.is_valid():
+            if 'image' in form.cleaned_data and form.cleaned_data['image'] is None:
+                form.cleaned_data['image'] = None
+
+            form.save()
+            return redirect('app:home_page_url')
+        else:
+            error = "Please correct the errors below."
+
+    return render(request, 'add_products.html', {
+        'form': form,
+        "error": error
+    })
+add_products = user_passes_test(lambda u: u.is_authenticated and u.is_staff)(add_products)
+
+
+def delete_product(request, pk):
+    product = get_object_or_404(Products, pk=pk)
+    product.delete()
+    return redirect("app:home_page_url")

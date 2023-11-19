@@ -52,6 +52,9 @@
 
           <div class="col-4 d-flex justify-content-end align-items-center">
             <div class="d-flex justify-content-center align-items-center" style="margin-right: 50px;">
+              {% if user.is_authenticated and user.is_staff %}
+                <a class="btn btn-outline-success mx-3" href="{% url 'app:add_product_url' %}">Add Product</a>
+              {% endif %}
               {% if user.is_authenticated %}
                 <p class="dropdown-toggle fs-4" data-bs-toggle="dropdown" aria-expanded="false">{{ user.first_name }}</p>
                 <ul class="dropdown-menu">
@@ -121,10 +124,8 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
               <li><a href="">Brands</a></li>
-              <li><a href="">Our story</a></li>
-              <li><a href="">Contact</a></li>
-              <li><a href="">Travelwear Blog</a></li>
 
+              
               <li class="d-flex" style="margin-top: 20px;">
                 <a href="{% url 'users:login_url' %}">Login</a>
               </li>
