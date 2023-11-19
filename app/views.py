@@ -33,11 +33,8 @@ def categoryPage(request, category):
     })
 
 def sub_category_page(request ,subCategory):
-    subcategories = SubCategory.objects.filter(category=subCategory)
-    sub_products = Products.objects.filter(subCategory__in=subcategories)
-
+    sub_products = Products.objects.filter(subCategory=subCategory)
     return render(request, "sub_category.html",{
         "sub_products":sub_products
     })
-
 
