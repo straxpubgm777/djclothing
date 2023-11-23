@@ -14,10 +14,12 @@ def home_page(request):
 
 def product_page(request,pk):
     product = Products.objects.get(pk=pk)
+    products = Products.objects.filter(subCategory=product.subCategory)
     more_images = MoreImages.objects.filter(product=pk)
     return render(request,"product_page.html",{
         "product":product,
-        "more_images":more_images
+        "more_images":more_images,
+        "products":products
     })
 
 def categoryPage(request, category):

@@ -12,22 +12,137 @@
     </div>
     <div class="row">
         <div class="d-md-none">
-            <div class="d-none d-md-block row" style="display: flex !important;">
-                <div class="col-12 col-md-5">
-                    <img id="largeImage" src="{{ product.image.url }}" alt="">
+            <div class="row">
+                <div class="col-12">
+                    <img id="largeImage" src="{{ product.image.url }}" alt="" class="img-fluid">
                 </div>
-                <div class="col-12 col-md-1 row">
-                    <div class="col-2">
-                        <img src="{{ product.image.url }}" class="thumbnail" style="width: 100%;" alt="">
-                    </div>
-                    {% for i in more_images %}
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <div class="row">
                         <div class="col-2">
-                            <img src="{{ i.image.url }}" class="mt-1 thumbnail" style="width: 100%;" alt="">
+                            <img src="{{ product.image.url }}" class="thumbnail" style="width: 100%;" alt="">
                         </div>
-                    {% endfor %}
+                        {% for i in more_images %}
+                            <div class="col-2">
+                                <img src="{{ i.image.url }}" class="mt-1 thumbnail" style="width: 100%;" alt="">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <div class="mt-2">
+                        <h1>{{ product.title }}</h1>
+                        <div>
+                            {% if product.color.exists %}
+                                <select name="color" class="form-control fs-5 p-2">
+                                    {% for color_option in product.color.all %}
+                                        <option value="{{ color_option.color }}">{{ color_option.color }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                            {% if product.size.exists %}
+                                <select name="size" class="form-control fs-5 p-2">
+                                    {% for size_option in product.size.all %}
+                                        <option value="{{ size_option.color }}">{{ size_option.size }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                        </div>
+        
+                        {% if product.out_of_stock %}
+                            <div class="d-flex justify-content-end mt-3">
+                                <h3>{{ product.price }}</h3>
+                            </div>
+                            <div class="btn btn-secondary w-100 fs-4" style="height: 50px;">Out of stock</div>
+        
+                            <div class="row bg-secondary-subtle mt-4">
+                                <p class="p-2">Order by 5pm and get it shipped tomorrow. 1 in stock</p>
+                            </div>
+        
+                            <div class="row mt-3" style="border: 1px solid rgba(126, 119, 119, 0.205); border-left: none; border-right: none;">
+                                <h5 type="button" data-bs-toggle="collapse" data-bs-target="#overviewCollapse" aria-expanded="false" aria-controls="overviewCollapse">
+                                    Overview
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </h5>
+                                <div class="collapse" id="overviewCollapse">
+                                    <div>
+                                        {{ product.title }}
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="row" style="border-bottom: 1px solid rgba(126, 119, 119, 0.219) !important; border: none;">
+                                <h5 type="button" data-bs-toggle="collapse" data-bs-target="#detailsCollapse" aria-expanded="false" aria-controls="detailsCollapse">
+                                    Details
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </h5>
+                                <div class="collapse" id="detailsCollapse">
+                                    <div>
+                                        {{ product.details }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+        
+                            <div class="d-flex justify-content-between mt-3">
+                                <div class="quantity-container">
+                                    <div class="input-group d-flex justify-content-center align-items-center">
+                                        <label for="quantity" style="margin-right: 10px;">Quantity: </label>
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn border" onclick="decrementQuantity()">-</button>
+                                        </div>
+                                        <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-control text-center">
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn border" onclick="incrementQuantity()">+</button>
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div>
+                                    <h3>{{ product.price }}</h3>
+                                </div>
+                            </div>
+        
+                            <div class="row mt-3">
+                                <button class="btn p-2 fs-3" style="background-color: rgb(133,117,79); color: #fff;">Add to cart</button>
+                            </div>
+        
+                            <div class="row bg-secondary-subtle mt-4">
+                                <p class="p-2">Order by 5pm and get it shipped tomorrow. 1 in stock</p>
+                            </div>
+        
+                            <div class="row mt-3" style="border: 1px solid rgba(126, 119, 119, 0.418); border-left: none; border-right: none;">
+                                <h5 type="button" data-bs-toggle="collapse" data-bs-target="#overviewCollapse" aria-expanded="false" aria-controls="overviewCollapse">
+                                    Overview
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </h5>
+                                <div class="collapse" id="overviewCollapse">
+                                    <div>
+                                        {{ product.title }}
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="row" style="border-bottom: 1px solid rgba(126, 119, 119, 0.418) !important; border: none;">
+                                <h5 type="button" data-bs-toggle="collapse" data-bs-target="#detailsCollapse" aria-expanded="false" aria-controls="detailsCollapse">
+                                    Details
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </h5>
+                                <div class="collapse" id="detailsCollapse">
+                                    <div>
+                                        {{ product.details }}
+                                    </div>
+                                </div>
+                            </div>
+            
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
+        
         <div class="d-none d-md-block">
             <div class="row" style="display: flex !important;">
                 <div class="col-12 col-md-1 d-flex justify-content-end">
@@ -38,25 +153,174 @@
                         {% endfor %}
                     </div>
                 </div>
+        
                 <div class="col-12 col-md-5">
-                    <img id="largeImage2" src="{{ product.image.url }}" alt="">
+                    <img id="largeImage2" src="{{ product.image.url }}" style="width: 700px; height: 800px;" alt="">
+                </div>
+        
+                <div class="col-12 col-md-5" style="position: -webkit-sticky; position: sticky; top: 0; padding: 50px; font-size: 20px;">
+                    <div class="mt-6 m-5">
+                        <h1>{{ product.title }}</h1>
+                        <div>
+                            {% if product.color.exists %}
+                                <select name="color" class="form-control fs-5 p-2">
+                                    {% for color_option in product.color.all %}
+                                        <option value="{{ color_option.color }}">{{ color_option.color }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                            {% if product.size.exists %}
+                                <select name="size" class="form-control fs-5 p-2">
+                                    {% for size_option in product.size.all %}
+                                        <option value="{{ size_option.color }}">{{ size_option.size }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                        </div>
+        
+                        {% if product.out_of_stock %}
+                            <div class="d-flex justify-content-end mt-3">
+                                <h3>{{ product.price }}</h3>
+                            </div>
+                            <div class="btn btn-secondary w-100 fs-4" style="height: 50px;">Out of stock</div>
+        
+                            <div class="row bg-secondary-subtle mt-4">
+                                <p class="p-2">Order by 5pm and get it shipped tomorrow. 1 in stock</p>
+                            </div>
+        
+                            <div class="row mt-3" style="border: 1px solid rgba(126, 119, 119, 0.205); border-left: none; border-right: none;">
+                                <h5 type="button" data-bs-toggle="collapse" data-bs-target="#overviewCollapse" aria-expanded="false" aria-controls="overviewCollapse">
+                                    Overview
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </h5>
+                                <div class="collapse" id="overviewCollapse">
+                                    <div>
+                                        {{ product.title }}
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="row" style="border-bottom: 1px solid rgba(126, 119, 119, 0.219) !important; border: none;">
+                                <h5 type="button" data-bs-toggle="collapse" data-bs-target="#detailsCollapse" aria-expanded="false" aria-controls="detailsCollapse">
+                                    Details
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </h5>
+                                <div class="collapse" id="detailsCollapse">
+                                    <div>
+                                        {{ product.details }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+        
+                            <div class="d-flex justify-content-between mt-3">
+                                <div class="quantity-container">
+                                    <div class="input-group d-flex justify-content-center align-items-center">
+                                        <label for="quantity" style="margin-right: 10px;">Quantity: </label>
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn border" onclick="decrementQuantity()">-</button>
+                                        </div>
+                                        <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-control text-center">
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn border" onclick="incrementQuantity()">+</button>
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div>
+                                    <h3>{{ product.price }}</h3>
+                                </div>
+                            </div>
+        
+                            <div class="row mt-3">
+                                <button class="btn p-2 fs-3" style="background-color: rgb(133,117,79); color: #fff;">Add to cart</button>
+                            </div>
+        
+                            <div class="row bg-secondary-subtle mt-4">
+                                <p class="p-2">Order by 5pm and get it shipped tomorrow. 1 in stock</p>
+                            </div>
+        
+                            <div class="row mt-3" style="border: 1px solid rgba(126, 119, 119, 0.418); border-left: none; border-right: none;">
+                                <h5 type="button" data-bs-toggle="collapse" data-bs-target="#overviewCollapse" aria-expanded="false" aria-controls="overviewCollapse">
+                                    Overview
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </h5>
+                                <div class="collapse" id="overviewCollapse">
+                                    <div>
+                                        {{ product.title }}
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="row" style="border-bottom: 1px solid rgba(126, 119, 119, 0.418) !important; border: none;">
+                                <h5 type="button" data-bs-toggle="collapse" data-bs-target="#detailsCollapse" aria-expanded="false" aria-controls="detailsCollapse">
+                                    Details
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </h5>
+                                <div class="collapse" id="detailsCollapse">
+                                    <div>
+                                        {{ product.details }}
+                                    </div>
+                                </div>
+                            </div>
+        
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
+        
+        
     </div>
+</div>
+<div class="row mt-4 mb-4">
+    <div class="col-md-2"></div>
+    <div class="col-md-2">
+        <h1>You may like</h1>
+    </div>
+</div>
+<div class="row">
+    {% for x in products|slice:":5" %}
+        {% if x.pk != product.pk %}
+            <a href="{% url 'app:product_page_url' x.pk %}" class="col-12 col-md-2" style="margin: 0 3%; color: #000;">
+                <div class="image-container">
+                    <img class="default-image" src="{{ x.image.url }}" style="width: 20rem !important;" alt="Product Image">
+                    {% for e in more_images %}
+                        {% if e.product.pk == x.pk %}
+                            <img class="hover-image" src="{{ e.image.url }}" style="width: 20rem !important;" alt="Hover Image">
+                        {% endif %}
+                    {% endfor %}
+                    <p>{{ x.title }}</p>
+                    <p>${{ x.price }}</p>
+                </div>
+            </a>
+        {% endif %}
+    {% endfor %}
 </div>
 
 <script>
+
+    // Update the second large image
     var thumbnails = document.querySelectorAll(".thumbnail");
     var largeImage = document.getElementById("largeImage");
-    var largeImage2 = document.getElementById("largeImage2"); // Unique ID for the second large image
+    var largeImage2 = document.getElementById("largeImage2");
 
     thumbnails.forEach(function(thumbnail) {
         thumbnail.addEventListener("click", function() {
             largeImage.src = thumbnail.src;
-            largeImage2.src = thumbnail.src; // Update the second large image
+            largeImage2.src = thumbnail.src;
         });
     });
+    function incrementQuantity() {
+        var quantityInput = document.getElementById('quantity');
+        quantityInput.value = parseInt(quantityInput.value, 10) + 1;
+    }
+
+    function decrementQuantity() {
+        var quantityInput = document.getElementById('quantity');
+        if (parseInt(quantityInput.value, 10) > 1) {
+            quantityInput.value = parseInt(quantityInput.value, 10) - 1;
+        }
+    }
 </script>
 {% endblock %}
 
