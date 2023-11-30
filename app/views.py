@@ -2,7 +2,8 @@ from django.shortcuts import render,get_object_or_404, redirect
 from app.models import *
 from app.forms import *
 from django.contrib.auth.decorators import user_passes_test
-
+from bs4 import BeautifulSoup
+import requests
 
 def home_page(request):
     products = Products.objects.all()
@@ -65,3 +66,13 @@ def delete_product(request, pk):
     product = get_object_or_404(Products, pk=pk)
     product.delete()
     return redirect("app:home_page_url")
+
+def brands_page(request):
+    brands = Brands.objects.all()
+    return render(request, "brands.html",{"brands":brands})
+
+def brands_products(request, pk):
+    brands = Brands.objects.get(pk=pk)
+    return render(request, "brands_product.html", {
+        'brands':brands
+    })

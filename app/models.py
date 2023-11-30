@@ -62,3 +62,11 @@ class Products(models.Model):
 
     def __str__(self):
         return f'{self.pk}'
+
+class Brands(models.Model):
+    brand_name = models.CharField(max_length=100, blank=True,null=True)
+    image = models.ImageField(upload_to="brands/", blank=True,null=True)
+    products = models.ManyToManyField(Products, related_name="brands_products", blank=True, null=True)
+
+    def __str__(self):
+        return str(self.pk)

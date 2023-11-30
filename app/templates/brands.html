@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container-xxl">
+        <h1>Brands</h1>
+        <div class="row">
+            {% for brand in brands %}
+                    {% if brand.brand_name %}
+                    <a href="{% url 'app:brands_product_url' brand.pk %}" class="col-md-2 col-3 mt-2 justify-content-center mx-2 d-flex align-items-center text-dark" style="height: 100px; background: rgba(0,0,0,0.08);">
+                        <p>{{brand.brand_name}}</p>
+                    </a>
+                    {% elif brand.image %}
+                    <a href="{% url 'app:brands_product_url' brand.pk %}" class="col-md-2 col-3 mt-2 justify-content-center mx-2 d-flex align-items-center" style="height: 100px;">
+                        <img src="{{ brand.image.url }}" style="width: 100%;">
+                    </a>
+                    {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

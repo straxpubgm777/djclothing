@@ -6,9 +6,11 @@
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <a class="btn btn-danger" href="{% url 'app:delete_product_url' product.pk %}">Delete Product</a>
-        </div>
+        {% if user.is_authenticated and user.is_staff %}
+            <div class="col-md-4">
+                <a class="btn btn-danger" href="{% url 'app:delete_product_url' product.pk %}">Delete Product</a>
+            </div>
+        {% endif %}
     </div>
     <div class="row">
         <div class="d-md-none">
