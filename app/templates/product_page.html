@@ -37,22 +37,6 @@
                 <div class="col-12">
                     <div class="mt-2">
                         <h1>{{ product.title }}</h1>
-                        <div>
-                            {% if product.color.exists %}
-                                <select name="color" class="form-control fs-5 p-2">
-                                    {% for color_option in product.color.all %}
-                                        <option value="{{ color_option.color }}">{{ color_option.color }}</option>
-                                    {% endfor %}
-                                </select>
-                            {% endif %}
-                            {% if product.size.exists %}
-                                <select name="size" class="form-control fs-5 p-2">
-                                    {% for size_option in product.size.all %}
-                                        <option value="{{ size_option.color }}">{{ size_option.size }}</option>
-                                    {% endfor %}
-                                </select>
-                            {% endif %}
-                        </div>
         
                         {% if product.out_of_stock %}
                             <div class="d-flex justify-content-end mt-3">
@@ -96,15 +80,35 @@
                                         <div class="input-group-prepend">
                                             <button type="button" class="btn border" onclick="decrementQuantity()">-</button>
                                         </div>
-                                        <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-control text-center">
+                                        <input type="number" class="quantity pr-2" name="quantity" min="1" value="1" class="form-control" style="border: 0.1px solid rgba(0, 0, 0, 0.199);">
                                         <div class="input-group-append">
                                             <button type="button" class="btn border" onclick="incrementQuantity()">+</button>
                                         </div>
                                     </div>
                                 </div>  
-                                <div>
-                                    <h3>{{ product.price }}</h3>
-                                </div>
+                            </div>
+                            <div>
+                                <h3>{{ product.price }}</h3>
+                            </div>
+
+                            <div>
+                                {% if product.color.exists %}
+                                    <select name="color" class="form-control fs-5 p-2">
+                                        {% for color_option in product.color.all %}
+                                            <option value="{{ color_option.color }}">{{ color_option.color }}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% endif %}
+                                {% if product.size.exists %}
+                                    <div class="row my-4">
+                                        {% for size_option in product.size.all %}
+                                            <div class="border px-3 text-center col-3" style="border-radius: 50%;">
+                                                <p class="p-0 m-0" style="font-weight: 650;">{{ size_option.size }}</p>
+                                                <p class="fs-6">{{ product.price }}</p>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
         
                             <div class="row mt-3">
@@ -163,22 +167,7 @@
                 <div class="col-12 col-md-5" style="position: -webkit-sticky; position: sticky; top: 0; padding: 50px; font-size: 20px;">
                     <div class="mt-6 m-5">
                         <h1>{{ product.title }}</h1>
-                        <div>
-                            {% if product.color.exists %}
-                                <select name="color" class="form-control fs-5 p-2">
-                                    {% for color_option in product.color.all %}
-                                        <option value="{{ color_option.color }}">{{ color_option.color }}</option>
-                                    {% endfor %}
-                                </select>
-                            {% endif %}
-                            {% if product.size.exists %}
-                                <select name="size" class="form-control fs-5 p-2">
-                                    {% for size_option in product.size.all %}
-                                        <option value="{{ size_option.color }}">{{ size_option.size }}</option>
-                                    {% endfor %}
-                                </select>
-                            {% endif %}
-                        </div>
+                        
         
                         {% if product.out_of_stock %}
                             <div class="d-flex justify-content-end mt-3">
@@ -222,7 +211,7 @@
                                         <div class="input-group-prepend">
                                             <button type="button" class="btn border" onclick="decrementQuantity()">-</button>
                                         </div>
-                                        <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-control text-center">
+                                        <input type="number" class="quantity pr-2" name="quantity" min="1" value="1" class="form-control" style="border: 0.1px solid rgba(0, 0, 0, 0.199);">
                                         <div class="input-group-append">
                                             <button type="button" class="btn border" onclick="incrementQuantity()">+</button>
                                         </div>
@@ -231,6 +220,26 @@
                                 <div>
                                     <h3>{{ product.price }}</h3>
                                 </div>
+                            </div>
+
+                            <div>
+                                {% if product.color.exists %}
+                                    <select name="color" class="form-control fs-5 p-2">
+                                        {% for color_option in product.color.all %}
+                                            <option value="{{ color_option.color }}">{{ color_option.color }}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% endif %}
+                                {% if product.size.exists %}
+                                    <div class="d-flex justify-content-between my-4">
+                                        {% for size_option in product.size.all %}
+                                            <div class="border px-3 text-center" style="border-radius: 50%;">
+                                                <p class="p-0 m-0" style="font-weight: 650;">{{ size_option.size }}</p>
+                                                <p class="fs-6">{{ product.price }}</p>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
         
                             <div class="row mt-3">
@@ -312,16 +321,21 @@
             largeImage2.src = thumbnail.src;
         });
     });
+
+
     function incrementQuantity() {
-        var quantityInput = document.getElementById('quantity');
-        quantityInput.value = parseInt(quantityInput.value, 10) + 1;
+        var quantityInput = document.querySelectorAll('.quantity').forEach(x=>{
+            x.value = parseInt(x.value, 10) + 1;
+        });
+        
     }
 
     function decrementQuantity() {
-        var quantityInput = document.getElementById('quantity');
-        if (parseInt(quantityInput.value, 10) > 1) {
-            quantityInput.value = parseInt(quantityInput.value, 10) - 1;
-        }
+        var quantityInput = document.querySelectorAll('.quantity').forEach(x=>{
+            if (parseInt(x.value, 10) > 1) {
+                x.value = parseInt(x.value, 10) - 1;
+            }
+        })
     }
 </script>
 {% endblock %}

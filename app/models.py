@@ -5,16 +5,17 @@ from django.db import models
 
 class SizeProduct(models.Model):
     SIZES = (
-        ("SML", 'SML'),
-        ("MED", 'MED'),
-        ("LRG", 'LRG'),
-        ("XLG", 'XLG'),
+        ("S", 'S'),
+        ("M", 'M'),
+        ("L", 'L'),
+        ("XL", 'XL'),
+        ("XXL", 'XXL'),
+        ("3XL", '3XL'),
     )
     size = models.CharField('Size', choices=SIZES, max_length=30)
 
     @staticmethod
     def get_default_sizes():
-        # Retrieve all available sizes and return them as a list of choices
         return [size[0] for size in SizeProduct.SIZES]
 
     def __str__(self):
