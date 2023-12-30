@@ -9,5 +9,6 @@ urlpatterns = [
     path('add_product/',add_products,name="add_product_url"),
     path('delet_product/<pk>/', delete_product,name="delete_product_url"),
     path("brands/", brands_page, name="brands_url"),
-    path("brands_product/<pk>/", brands_products, name="brands_product_url")
+    path("brands_product/<pk>/", brands_products, name="brands_product_url"),
+    path("edit_banner", edit_banner, name="edit_banner_url")
 ]

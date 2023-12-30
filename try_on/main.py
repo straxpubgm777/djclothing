@@ -5,12 +5,10 @@ import numpy as np
 from poseEstimate import pose_estimate
 from affine_transform import affine_transform
 from train import train_clothes
-import os
 
-ROOT_DIR = os.getcwd()
 
-# put client's picture folder called "clients_picture" and write path of image
-clinet_path = Image.open(f"{ROOT_DIR}/clients_picture/")
+
+clinet_path = Image.open("/content/clients_picture/1.jpg")
 
 # Remove background
 image_np = cv2.cvtColor(np.array(clinet_path), cv2.COLOR_RGB2BGR)

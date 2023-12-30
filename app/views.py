@@ -8,9 +8,11 @@ import requests
 def home_page(request):
     products = Products.objects.all()
     more_images = MoreImages.objects.all()
+    banners = Banners.objects.all()
     return render(request, "home.html",{
         "products":products,
-        "more_images":more_images
+        "more_images":more_images,
+        "banners":banners
     })
 
 def product_page(request,pk):
@@ -76,3 +78,21 @@ def brands_products(request, pk):
     return render(request, "brands_product.html", {
         'brands':brands
     })
+
+
+def edit_banner(request):
+    banner = get_object_or_404(Banners, pk=1)
+
+    if banner:
+
+        if request.method == 'POST':
+            form = BannersForm(request.POST, request.FILES, instance=banner)
+            if form.is_valid():
+                form.save()
+                return redirect("app:home_page_url")
+        else:
+            form = BannersForm(instance=banner)
+    else:
+        redirect("app:home_page_url")
+
+    return render(request, 'edit_banner.html', {'form': form})

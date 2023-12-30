@@ -71,3 +71,11 @@ class Brands(models.Model):
 
     def __str__(self):
         return str(self.pk)
+
+class Banners(models.Model):
+    image = models.ImageField(upload_to="banners/")
+    title = models.CharField(max_length=200)
+    text = models.TextField()
+
+    def __str__(self):
+        return str(self.pk)
